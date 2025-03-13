@@ -1,0 +1,45 @@
+retro-gaming-hub/
+├── app/
+│   ├── api/
+│   │   └── auth/
+│   │       └── route.js
+│   ├── hub/
+│   │   └── page.js
+│   ├── games/
+│   │   ├── layout.js
+│   │   ├── flower-match/
+│   │   │   └── page.js
+│   │   ├── cupcake-catch/
+│   │   │   └── page.js
+│   │   └── heart-jump/
+│   │       └── page.js
+│   ├── globals.css
+│   ├── layout.js
+│   └── page.js
+├── components/
+│   ├── ButtonGame.jsx
+│   ├── CardPresent.jsx
+│   └── ContainerPixel.jsx
+├── lib/
+│   └── gameUtils.js
+├── middleware.js
+├── public/
+│   ├── fonts/
+│   │   └── pixel-font.woff2
+│   ├── images/
+│   │   ├── pixel-bg.png
+│   │   ├── pixel-heart.png
+│   │   ├── pixel-flower.png
+│   │   ├── pixel-star.png
+│   │   ├── pixel-pattern.png
+│   │   ├── game-flower.png
+│   │   ├── game-cupcake.png
+│   │   ├── game-heart.png
+│   │   └── present-locked.png
+│   └── presents/
+│       ├── present1.png
+│       ├── present2.png
+│       └── present3.png
+├── next.config.js
+├── package.json
+└── tailwind.config.js
