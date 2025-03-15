@@ -7,7 +7,7 @@ export async function POST(request) {
       // Replace these with the actual values you want to use
       // These would typically be stored more securely (environment variables)
       const CORRECT_USERNAME = "Guapita"; // Replace with your girlfriend's name
-      const CORRECT_PASSWORD = "13/11/2024"; // Replace with your meeting date in MMDDYYYY format
+      const CORRECT_PASSWORD = "11132024"; // Replace with your meeting date in MMDDYYYY format
       
       if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
         // Set a simple session cookie

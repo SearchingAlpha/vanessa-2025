@@ -1,53 +1,87 @@
-// components/ButtonGame.jsx
 "use client";
 
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { isGameCompleted } from '@/lib/gameUtils';
 
-export default function ButtonGame({ gameId, title, description, imageSrc, path }) {
+export default function ButtonGame({ title, description, imageSrc, gameUrl, completed }) {
   const [isHovered, setIsHovered] = useState(false);
-  const completed = isGameCompleted(gameId);
-  
-  // Provide a fallback path if none is provided
-  const gamePath = path || `/games/${gameId}`;
   
   return (
     <Link 
-      href={gamePath}
-      className={`block w-full transition-transform duration-200 ${isHovered ? 'transform translate-y-[-4px]' : ''}`}
+      href={gameUrl}
+      className={`block w-full transition-all duration-300 ${
+        isHovered ? 'transform -translate-y-2 rotate-1' : ''
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="pixel-box bg-white rounded-lg overflow-hidden border-4 border-pink-400 h-full">
-        <div className="relative h-40 overflow-hidden">
+      <div className="pixel-box bg-white overflow-hidden h-full relative">
+        {/* Game image */}
+        <div className="relative h-48 bg-pink-100 overflow-hidden">
           <Image 
             src={imageSrc} 
             alt={title}
             fill
-            className="object-cover transform hover:scale-110 transition-transform duration-300"
+            className={`object-contain p-4 transition-transform duration-300 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            }`}
             priority
+            style={{ imageRendering: 'pixelated' }}
           />
+          
+          {/* Completion badge */}
           {completed && (
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/70 to-green-300/70 flex items-center justify-center">
-              <span className="pixel-text text-white text-lg font-bold rotate-[-5deg]">COMPLETED!</span>
+            <div className="absolute inset-0 bg-green-500 bg-opacity-20 flex items-center justify-center">
+              <div className="bg-green-500 text-white font-pixel px-3 py-1 rotate-12 text-sm">
+                COMPLETED!
+              </div>
             </div>
           )}
+          
+          {/* Hover effect overlay */}
+          <div className={`absolute inset-0 bg-purple-500 bg-opacity-30 transition-opacity duration-300 flex items-center justify-center ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}>
+            <div className="bg-white bg-opacity-90 px-4 py-2 rounded-lg font-pixel text-purple-700 text-sm">
+              Play Now
+            </div>
+          </div>
         </div>
         
+        {/* Game info */}
         <div className="p-4">
-          <h3 className="pixel-text text-xl text-purple-600 mb-2">{title}</h3>
-          <p className="text-gray-600 text-sm">{description}</p>
+          <h3 className="font-pixel text-lg text-purple-700 mb-2">{title}</h3>
+          {description && (
+            <p className="text-sm text-purple-600 mb-4 line-clamp-2">{description}</p>
+          )}
           
-          <div className="mt-4">
-            <span className={`inline-block px-4 py-2 pixel-button rounded-full text-white text-center w-full ${
-              completed ? 'bg-gradient-to-r from-green-500 to-green-400' : 'bg-gradient-to-r from-pink-500 to-purple-500'
+          <div className="mt-2">
+            <span className={`inline-block w-full px-4 py-2 font-pixel text-sm text-center rounded-md ${
+              completed 
+                ? 'bg-green-500 text-white' 
+                : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
             }`}>
               {completed ? 'Play Again' : 'Play Now'}
             </span>
           </div>
         </div>
+        
+        {/* Pixel corners */}
+        <div className="absolute top-0 left-0 w-3 h-3 bg-black"></div>
+        <div className="absolute top-0 right-0 w-3 h-3 bg-black"></div>
+        <div className="absolute bottom-0 left-0 w-3 h-3 bg-black"></div>
+        <div className="absolute bottom-0 right-0 w-3 h-3 bg-black"></div>
+        
+        {/* Decorative pixel elements */}
+        {isHovered && (
+          <>
+            <div className="absolute top-0 left-1/4 w-1 h-1 bg-pink-500"></div>
+            <div className="absolute top-0 right-1/4 w-1 h-1 bg-purple-500"></div>
+            <div className="absolute bottom-0 left-1/3 w-1 h-1 bg-pink-500"></div>
+            <div className="absolute bottom-0 right-1/3 w-1 h-1 bg-purple-500"></div>
+          </>
+        )}
       </div>
     </Link>
   );

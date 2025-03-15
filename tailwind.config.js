@@ -1,63 +1,147 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-      './pages/**/*.{js,ts,jsx,tsx,mdx}',
-      './components/**/*.{js,ts,jsx,tsx,mdx}',
-      './app/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
-    theme: {
-      extend: {
-        colors: {
-          'pastel-pink': '#FFB6C1',
-          'pastel-purple': '#D8BFD8',
-          'pastel-blue': '#ADD8E6',
-          'pastel-yellow': '#FFFACD',
-          'pastel-green': '#98FB98',
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        pixel: ['"Press Start 2P"', 'cursive'],
+      },
+      colors: {
+        // Pastel Pink Palette
+        pink: {
+          50: '#fff0f5',
+          100: '#fff0f7',
+          200: '#ffd1dc', // pastel pink
+          300: '#ffadd2',
+          400: '#ff89b6',
+          500: '#ff6ca3',
+          600: '#ff5c97',
+          700: '#f03f82',
+          800: '#db2777',
+          900: '#be185d',
         },
-        fontFamily: {
-          pixel: ['PixelFont', 'sans-serif'],
+        // Pastel Purple Palette
+        purple: {
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e0c1f0', // pastel purple
+          300: '#d5b8ff',
+          400: '#b69aff',
+          500: '#a67ced',
+          600: '#9333ea',
+          700: '#7e22ce',
+          800: '#6b21a8',
+          900: '#581c87',
         },
-        animation: {
-          'pixel-float': 'float 3s ease-in-out infinite',
-          'pixel-pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        // Pastel Blue Palette
+        blue: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#c5e1ff', // pastel blue
+          300: '#a6c9fd',
+          400: '#7bacfa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
         },
-        backgroundImage: {
-          'pixel-gradient': 'linear-gradient(to right, var(--tw-gradient-stops))',
+        // Additional Pastel Colors
+        pastel: {
+          yellow: '#fff5ba',
+          green: '#c9f5d9',
+          lavender: '#e6d7ff',
+          peach: '#ffddcc',
+          mint: '#d1ffee',
         },
-        boxShadow: {
-          'pixel': '4px 4px 0px rgba(0, 0, 0, 0.2)',
-          'pixel-lg': '8px 8px 0px rgba(0, 0, 0, 0.2)',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
+      animation: {
+        'float': 'float 3s ease-in-out infinite',
+        'float-delay': 'float 3s ease-in-out 1s infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'wiggle': 'wiggle 0.5s ease-in-out',
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'fade-out': 'fadeOut 0.5s ease-in-out',
+        'bounce-small': 'bounceSmall 1s infinite',
+        'float-away': 'floatAway 1.5s ease-out forwards',
+        'sparkle': 'sparkle 1.5s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        fadeOut: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
+        bounceSmall: {
+          '0%, 100%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(-5px)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+        },
+        floatAway: {
+          '0%': { 
+            transform: 'translate(0, 0) scale(1)', 
+            opacity: 1 
+          },
+          '100%': { 
+            transform: 'translate(var(--tx, 100px), var(--ty, -100px)) scale(0)',
+            opacity: 0 
+          },
+        },
+        sparkle: {
+          '0%, 100%': { 
+            transform: 'scale(1)', 
+            opacity: 0.7 
+          },
+          '50%': { 
+            transform: 'scale(1.2)', 
+            opacity: 1 
+          },
         },
       },
     },
-    plugins: [require('daisyui')],
-    daisyui: {
-      themes: [
-        {
-          retro: {
-            'primary': '#FF69B4',          // Hot pink
-            'primary-focus': '#FF1493',    // Deep pink
-            'primary-content': '#ffffff',  // White text on primary
-            'secondary': '#9370DB',        // Medium purple
-            'secondary-focus': '#8A2BE2',  // Blue violet
-            'secondary-content': '#ffffff',// White text on secondary
-            'accent': '#FFD700',           // Gold
-            'accent-focus': '#FFA500',     // Orange
-            'accent-content': '#ffffff',   // White text on accent
-            'neutral': '#2a323c',          // Dark blue-grey
-            'neutral-focus': '#1e2632',    // Darker blue-grey
-            'neutral-content': '#ffffff',  // White text on neutral
-            'base-100': '#FFF6F9',         // Very light pink
-            'base-200': '#FFE6F2',         // Light pink
-            'base-300': '#FFCCE6',         // Medium light pink
-            'base-content': '#5A3E7A',     // Purple text on base
-            'info': '#4dd0e1',             // Light blue
-            'success': '#51cf66',          // Green
-            'warning': '#fcc419',          // Yellow
-            'error': '#ff6b6b',            // Red
-          },
+  },
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.text-shadow-pixel': {
+          'text-shadow': '2px 2px 0 rgba(125, 78, 133, 0.3)',
         },
-      ],
+        '.text-shadow-pixel-sm': {
+          'text-shadow': '1px 1px 0 rgba(125, 78, 133, 0.3)',
+        },
+        '.text-shadow-pixel-lg': {
+          'text-shadow': '3px 3px 0 rgba(125, 78, 133, 0.3)',
+        },
+        '.pixelated': {
+          'image-rendering': 'pixelated',
+        },
+        '.rotate-y-180': {
+          transform: 'rotateY(180deg)',
+        },
+      };
+      addUtilities(newUtilities);
     },
-  };
+  ],
+};
