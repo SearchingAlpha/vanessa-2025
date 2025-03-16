@@ -5,34 +5,33 @@ import React from 'react';
 export default function ContainerPixel({ children, className = "", onClick = null }) {
   return (
     <div 
-      className={`relative p-6 border-4 border-black bg-white ${className}`} 
-      style={{ 
-        boxShadow: '6px 6px 0px rgba(0, 0, 0, 0.5)',
-        imageRendering: 'pixelated'
-      }}
+      className={`relative backdrop-blur-sm bg-black/50 border border-pink-500/50 rounded-lg overflow-hidden shadow-[0_0_20px_rgba(219,39,119,0.3)] ${className}`} 
       onClick={onClick}
     >
-      {/* Pixel corners - outer */}
-      <div className="absolute w-4 h-4 bg-black -top-4 -left-4"></div>
-      <div className="absolute w-4 h-4 bg-black -top-4 -right-4"></div>
-      <div className="absolute w-4 h-4 bg-black -bottom-4 -left-4"></div>
-      <div className="absolute w-4 h-4 bg-black -bottom-4 -right-4"></div>
-      
-      {/* Pixel corners - inner */}
-      <div className="absolute w-2 h-2 bg-black top-0 left-0"></div>
-      <div className="absolute w-2 h-2 bg-black top-0 right-0"></div>
-      <div className="absolute w-2 h-2 bg-black bottom-0 left-0"></div>
-      <div className="absolute w-2 h-2 bg-black bottom-0 right-0"></div>
-      
-      {/* Decorative dots */}
-      <div className="absolute w-1 h-1 bg-black top-[8px] left-[8px]"></div>
-      <div className="absolute w-1 h-1 bg-black top-[8px] right-[8px]"></div>
-      <div className="absolute w-1 h-1 bg-black bottom-[8px] left-[8px]"></div>
-      <div className="absolute w-1 h-1 bg-black bottom-[8px] right-[8px]"></div>
+      {/* Header panel with scanlines */}
+      <div className="bg-gradient-to-r from-purple-900/80 to-pink-900/80 p-4 border-b border-pink-500/30 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 2px)',
+          backgroundSize: '100% 2px',
+        }}></div>
+        
+        <div className="flex items-center justify-between">
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+          <div className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        </div>
+      </div>
       
       {/* Content */}
-      <div className="relative z-10">
-        {children}
+      <div className="p-6 relative">
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-5" style={{
+          backgroundImage: 'linear-gradient(to right, #ff80bf 1px, transparent 1px), linear-gradient(to bottom, #ff80bf 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+        }}></div>
+        
+        <div className="relative z-10">
+          {children}
+        </div>
       </div>
     </div>
   );

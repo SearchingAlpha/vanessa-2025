@@ -1,306 +1,299 @@
-/* app/globals.css with improved text contrast */
+/* app/globals.css with modern arcade theme */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
-  --background: #fff6f9;
-  --foreground: #5a2d62; /* Darker purple for better contrast */
-  --text-primary: #5a2d62; /* Darker purple for text */
-  --text-secondary: #8e4b97; /* Medium purple for secondary text */
-  --text-accent: #d81b60; /* Bold accent for important text */
+  /* Base colors */
+  --bg-dark: #0f0a1e;
+  --bg-gradient-from: #1a1025;
+  --bg-gradient-via: #2d1246;
+  --bg-gradient-to: #3d1146;
   
-  /* Pastel colors */
-  --pink-pastel: #ffd1dc;
-  --pink-light: #ffdbec;
-  --pink-medium: #ffadd2;
-  --pink-dark: #ff89b6;
-  --purple-pastel: #e0c1f0;
-  --purple-light: #ebdbff;
-  --purple-medium: #d5b8ff;
-  --purple-dark: #b69aff;
-  --blue-pastel: #c5e1ff;
-  --blue-light: #d9f0ff;
-  --yellow-pastel: #fff5ba;
-  --mint-pastel: #c9f5d9;
-  --lavender-pastel: #e6d7ff;
+  /* Neon colors */
+  --neon-pink: #ff1493;
+  --neon-pink-glow: rgba(255, 20, 147, 0.8);
+  --neon-cyan: #00f7ff;
+  --neon-cyan-glow: rgba(0, 247, 255, 0.8);
+  --neon-purple: #bf00ff;
+  --neon-purple-glow: rgba(191, 0, 255, 0.8);
   
-  /* Border and accent colors */
-  --border-color: #7d4e85;
-  --box-shadow-color: rgba(125, 78, 133, 0.4);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #382a3f;
-    --foreground: #ffe3f1; /* Lighter for dark mode */
-    --text-primary: #ffe3f1; /* Lighter for dark mode */
-    --text-secondary: #ffbbd8; /* Light pink for dark mode */
-    --text-accent: #ff88b7; /* Bright pink for dark mode */
-    
-    /* Dark mode pastel colors */
-    --pink-pastel: #ffa6c1;
-    --pink-light: #ffb6d9;
-    --pink-medium: #ff8ab8;
-    --pink-dark: #ff6ca3;
-    --purple-pastel: #d0a6f7;
-    --purple-light: #d8b9ff;
-    --purple-medium: #c191ff;
-    --purple-dark: #a67ced;
-    --blue-pastel: #a6d5ff;
-    --blue-light: #b5e2ff;
-    --yellow-pastel: #fff0a6;
-    --mint-pastel: #a8edbe;
-    --lavender-pastel: #d4bfff;
-    
-    /* Border and accent colors for dark mode */
-    --border-color: #9d6ca5;
-    --box-shadow-color: rgba(157, 108, 165, 0.6);
-  }
+  /* Text colors */
+  --text-light: #ffffff;
+  --text-pink: #ff80bf;
+  --text-cyan: #80ffff;
+  --text-purple: #c080ff;
+  
+  /* Border colors */
+  --border-light: rgba(255, 128, 191, 0.3);
+  --border-medium: rgba(255, 128, 191, 0.5);
+  --border-dark: rgba(255, 128, 191, 0.7);
+  
+  /* Shadow colors */
+  --shadow-pink: rgba(255, 20, 147, 0.5);
+  --shadow-cyan: rgba(0, 247, 255, 0.5);
+  --shadow-purple: rgba(191, 0, 255, 0.5);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: 'Press Start 2P', Arial, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-family: 'Press Start 2P', monospace;
   image-rendering: pixelated;
 }
 
-/* Pixel Art Styles */
+/* Typography */
 .font-pixel {
-  font-family: 'Press Start 2P', cursive;
-  letter-spacing: 1px;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.5px;
   line-height: 1.5;
-  color: var(--text-primary);
 }
 
-.pixel-box {
+/* Modern neon text effect */
+.text-neon-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 5px var(--neon-pink-glow), 0 0 10px var(--neon-pink-glow);
+}
+
+.text-neon-cyan {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 5px var(--neon-cyan-glow), 0 0 10px var(--neon-cyan-glow);
+}
+
+.text-neon-purple {
+  color: var(--neon-purple);
+  text-shadow: 0 0 5px var(--neon-purple-glow), 0 0 10px var(--neon-purple-glow);
+}
+
+/* Scanlines effect */
+.scanlines {
   position: relative;
-  border: 4px solid var(--border-color);
-  box-shadow: 6px 6px 0 var(--box-shadow-color);
-  image-rendering: pixelated;
+  overflow: hidden;
 }
 
-.pixel-box::before {
+.scanlines::before {
   content: "";
   position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 2px solid var(--border-color);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 0.5%,
+    transparent 1%
+  );
   pointer-events: none;
+  z-index: 10;
 }
 
-.pixel-button {
-  font-family: 'Press Start 2P', cursive;
+/* Glitch effect for text */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.text-glitch {
+  animation: glitch 0.2s ease-in-out infinite alternate-reverse;
+}
+
+/* Arcade button glow */
+.button-glow {
   position: relative;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: var(--purple-pastel);
-  border: 3px solid var(--border-color);
-  color: var(--text-primary);
-  box-shadow: 3px 3px 0 var(--box-shadow-color);
-  transition: transform 0.1s, box-shadow 0.1s;
-  image-rendering: pixelated;
+  overflow: hidden;
 }
 
-.pixel-button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--box-shadow-color);
+.button-glow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: button-shine 2s infinite;
 }
 
-.pixel-input {
-  font-family: 'Press Start 2P', cursive;
-  border: 3px solid var(--border-color);
-  background-color: white;
-  padding: 8px;
-  box-shadow: 3px 3px 0 var(--box-shadow-color);
-  font-size: 0.8rem;
-  image-rendering: pixelated;
-  color: var(--text-primary);
+@keyframes button-shine {
+  100% {
+    left: 200%;
+  }
 }
 
-/* Text color helper classes */
-.text-primary {
-  color: var(--text-primary);
-}
-
-.text-secondary {
-  color: var(--text-secondary);
-}
-
-.text-accent {
-  color: var(--text-accent);
-}
-
-/* Pixel Art Animations */
-.pixel-animate {
-  animation: float 3s ease-in-out infinite;
-}
-
-.pixel-animate-delay {
-  animation: float 4s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-.pixel-animate-slow {
-  animation: float 5s ease-in-out infinite;
-  animation-delay: 0.5s;
-}
-
+/* Modern animations */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-/* Pixel Art Grid Background */
-.pixel-bg {
-  background-image: url('/images/pixel-bg-pattern.png');
-  background-repeat: repeat;
-  background-size: 24px 24px;
-  image-rendering: pixelated;
-}
-
-/* Pixel Art Decorative Elements */
-.pixel-corner {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--border-color);
-}
-
-.pixel-corner-tl {
-  top: 0;
-  left: 0;
-}
-
-.pixel-corner-tr {
-  top: 0;
-  right: 0;
-}
-
-.pixel-corner-bl {
-  bottom: 0;
-  left: 0;
-}
-
-.pixel-corner-br {
-  bottom: 0;
-  right: 0;
-}
-
-/* Sparkle Animation */
-.pixel-sparkle {
-  animation: sparkle 1.5s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-  0%, 100% {
     transform: scale(1);
-    opacity: 0.7;
   }
   50% {
-    transform: scale(1.2);
-    opacity: 1;
+    opacity: 0.7;
+    transform: scale(0.95);
   }
 }
 
-/* Rainbow text with better contrast */
-.pixel-rainbow-text {
-  font-weight: bold;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-  background: linear-gradient(to right, #ff6ca3, #8e4b97, #5980cc, #50b37c, #cc9e22);
-  -webkit-background-clip: text;
-  background-clip: text;
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--shadow-pink);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--shadow-pink);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CRT Screen Effect */
+.crt-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.crt-screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+}
+
+/* Grid background */
+.grid-bg {
+  background-image: linear-gradient(to right, var(--border-light) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Perspective grid */
+.perspective-grid {
+  background-image: linear-gradient(to right, var(--border-light) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--border-light) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: center top;
+}
+
+/* Utility animations */
+.animate-bounce {
+  animation: bounce 0.5s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-7px);
+  }
+}
+
+/* Rainbow text effect */
+.text-rainbow {
+  background-image: linear-gradient(
+    to right,
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-cyan),
+    var(--neon-pink)
+  );
+  background-size: 200% auto;
   color: transparent;
-  animation: rainbow 8s linear infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: rainbow 4s linear infinite;
 }
 
 @keyframes rainbow {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% center;
   }
   100% {
-    background-position: 200% 50%;
+    background-position: 200% center;
   }
 }
 
-/* Girly background gradients with pastel colors */
-.bg-girly-gradient {
-  background: linear-gradient(135deg, var(--pink-light) 0%, var(--lavender-pastel) 100%);
+/* Neon text glow */
+.text-glow-pink {
+  text-shadow: 0 0 5px var(--neon-pink-glow), 0 0 10px var(--neon-pink-glow);
 }
 
-.bg-girly-gradient-animated {
-  background: linear-gradient(135deg, var(--pink-pastel) 0%, var(--purple-pastel) 50%, var(--blue-pastel) 100%);
-  background-size: 200% 200%;
-  animation: gradient-shift 15s ease infinite;
+.text-glow-cyan {
+  text-shadow: 0 0 5px var(--neon-cyan-glow), 0 0 10px var(--neon-cyan-glow);
 }
 
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Heart pulse animation for special elements */
-.heart-pulse {
-  animation: heart-beat 1.5s ease-in-out infinite;
-}
-
-@keyframes heart-beat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  15% {
-    transform: scale(1.2);
-  }
-  30% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(1.1);
-  }
-}
-
-/* Custom scrollbar with pastel colors */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--pink-light);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--purple-pastel);
-  border: 2px solid var(--border-color);
+.text-glow-purple {
+  text-shadow: 0 0 5px var(--neon-purple-glow), 0 0 10px var(--neon-purple-glow);
 }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .font-pixel {
-    font-size: 0.85em;
-  }
-  
-  .pixel-button {
-    padding: 0.3rem 0.8rem;
+    font-size: 0.8em;
   }
 }

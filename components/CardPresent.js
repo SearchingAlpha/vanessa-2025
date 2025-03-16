@@ -6,38 +6,21 @@ import Image from 'next/image';
 export default function CardPresent({ title, isUnlocked, presentContent, presentImageSrc }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [showParticles, setShowParticles] = useState(false);
-  const [particles, setParticles] = useState([]);
+  const [glowIntensity, setGlowIntensity] = useState(0);
 
+  // Add pulsing glow effect for unlocked presents
   useEffect(() => {
-    if (isAnimating) {
-      // Create particles for opening animation
-      const newParticles = [];
-      for (let i = 0; i < 20; i++) {
-        newParticles.push({
-          id: i,
-          x: 50 + (Math.random() * 60 - 30), // Center ± 30%
-          y: 50 + (Math.random() * 60 - 30),
-          size: Math.random() * 8 + 4,
-          speedX: (Math.random() - 0.5) * 10,
-          speedY: (Math.random() - 0.5) * 10,
-          color: ['#ff89b6', '#b69aff', '#ffcc99', '#99ccff'][Math.floor(Math.random() * 4)]
-        });
-      }
-      setParticles(newParticles);
-      setShowParticles(true);
-      
-      // Hide particles after animation
-      setTimeout(() => {
-        setShowParticles(false);
-      }, 1500);
-      
-      // End animation state
-      setTimeout(() => {
-        setIsAnimating(false);
-      }, 1000);
-    }
-  }, [isAnimating]);
+    if (!isUnlocked || isOpen) return;
+    
+    const interval = setInterval(() => {
+      setGlowIntensity(prev => {
+        const newValue = prev + 0.05;
+        return newValue > 1 ? 0 : newValue;
+      });
+    }, 50);
+    
+    return () => clearInterval(interval);
+  }, [isUnlocked, isOpen]);
 
   const toggleOpen = () => {
     if (isUnlocked && !isAnimating) {
@@ -45,6 +28,7 @@ export default function CardPresent({ title, isUnlocked, presentContent, present
         setIsAnimating(true);
         setTimeout(() => {
           setIsOpen(true);
+          setIsAnimating(false);
         }, 500);
       } else {
         setIsOpen(false);
@@ -56,52 +40,46 @@ export default function CardPresent({ title, isUnlocked, presentContent, present
     <div className="relative">
       {/* Present container */}
       <div 
-        className={`w-full aspect-square pixel-box bg-white transition-all duration-300 ${
-          isUnlocked ? 'cursor-pointer hover:shadow-lg hover:-translate-y-1' 
-                     : 'opacity-70 grayscale'
-        } ${isAnimating ? 'animate-wiggle' : ''}`}
+        className={`bg-gray-900/80 border ${
+          isUnlocked ? 'border-pink-500/70' : 'border-gray-700/50'
+        } rounded-lg p-5 flex flex-col items-center transition-all duration-300 ${
+          isUnlocked ? (isOpen ? '' : 'hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(219,39,119,0.4)] cursor-pointer') : 'opacity-50 grayscale'
+        } ${isAnimating ? 'animate-bounce' : ''}`}
         onClick={toggleOpen}
+        style={{
+          boxShadow: isUnlocked && !isOpen ? `0 0 ${10 + glowIntensity * 10}px rgba(219,39,119,${0.2 + glowIntensity * 0.3})` : ''
+        }}
       >
-        {/* Particle effects when opening */}
-        {showParticles && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {particles.map(particle => (
-              <div
-                key={particle.id}
-                className="absolute rounded-full animate-float-away"
-                style={{
-                  left: `${particle.x}%`,
-                  top: `${particle.y}%`,
-                  width: `${particle.size}px`,
-                  height: `${particle.size}px`,
-                  backgroundColor: particle.color,
-                  transform: `translate(${particle.speedX}px, ${particle.speedY}px)`,
-                  opacity: 0
-                }}
-              />
-            ))}
-          </div>
-        )}
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 transition-opacity duration-500">
-          {/* When present is open */}
+        {/* Present content */}
+        <div className="w-full flex flex-col items-center">
           {isOpen && isUnlocked ? (
-            <div className="flex flex-col items-center animate-fade-in">
-              {presentImageSrc && (
-                <div className="relative w-24 h-24 mb-4">
-                  <Image
-                    src={presentImageSrc}
-                    alt="Present"
-                    fill
-                    style={{ objectFit: 'contain', imageRendering: 'pixelated' }}
-                  />
-                </div>
-              )}
-              <div className="px-4 py-2 bg-pink-100 border-2 border-pink-400 rounded-lg">
-                <p className="text-center font-pixel text-sm text-primary">{presentContent}</p>
+            // Open present content with arcade styling
+            <div className="w-full animate-fade-in flex flex-col items-center">
+              <div className="relative w-24 h-24 mb-4">
+                <Image
+                  src={presentImageSrc}
+                  alt="Present"
+                  width={96}
+                  height={96}
+                  style={{ objectFit: 'contain', imageRendering: 'pixelated' }}
+                />
+                
+                {/* Glow effect */}
+                <div className="absolute inset-0 blur-md -z-10 opacity-50 bg-pink-500 rounded-full"></div>
               </div>
+              
+              <div className="bg-black/40 border border-pink-500/50 rounded-lg p-4 w-full relative overflow-hidden">
+                {/* Scanlines */}
+                <div className="absolute inset-0 pointer-events-none opacity-10" style={{
+                  backgroundImage: 'repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1) 1px, transparent 1px, transparent 2px)',
+                  backgroundSize: '100% 2px',
+                }}></div>
+                
+                <p className="text-center font-pixel text-xs text-pink-300">{presentContent}</p>
+              </div>
+              
               <button 
-                className="mt-4 px-3 py-1 font-pixel text-xs text-white bg-pink-500 rounded-md hover:bg-pink-600"
+                className="mt-4 px-4 py-2 font-pixel text-xs text-white bg-gradient-to-r from-pink-600 to-purple-600 rounded border border-pink-500/50 hover:shadow-[0_0_10px_rgba(219,39,119,0.5)] transition-shadow"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsOpen(false);
@@ -111,23 +89,30 @@ export default function CardPresent({ title, isUnlocked, presentContent, present
               </button>
             </div>
           ) : (
+            // Closed present with arcade styling
             <>
-              {/* When present is closed */}
-              <div className={`transition-transform duration-500 ${isAnimating ? 'scale-0' : 'scale-100'}`}>
-                <div className="relative w-32 h-32 mb-3">
+              <div className={`transition-transform duration-300 ${isAnimating ? 'scale-0' : 'scale-100'} flex flex-col items-center`}>
+                <div className="relative w-24 h-24 mb-3">
                   <Image
                     src={isUnlocked ? "/presents/present.png" : "/presents/present-locked.png"}
                     alt="Present"
-                    fill
-                    priority
+                    width={96}
+                    height={96}
                     style={{ objectFit: 'contain', imageRendering: 'pixelated' }}
                   />
+                  
+                  {/* Glow effect for unlocked presents */}
+                  {isUnlocked && (
+                    <div className="absolute inset-0 blur-md -z-10 opacity-30 bg-pink-500 rounded-full"></div>
+                  )}
                 </div>
-                <h3 className="font-pixel text-sm text-center text-primary mb-2">{title}</h3>
-                <div className={`mt-2 px-3 py-1 font-pixel text-xs text-center rounded-md ${
+                
+                <h3 className="font-pixel text-sm text-center text-pink-300 mb-2">{title}</h3>
+                
+                <div className={`mt-2 px-4 py-2 font-pixel text-xs rounded ${
                   isUnlocked 
-                    ? "bg-pink-500 text-white" 
-                    : "bg-gray-400 text-white"
+                    ? "text-white bg-gradient-to-r from-pink-600 to-purple-600 border border-pink-500/50" 
+                    : "text-gray-400 bg-gray-800 border border-gray-700"
                 }`}>
                   {isUnlocked ? "Open Me!" : "Locked"}
                 </div>
@@ -135,17 +120,11 @@ export default function CardPresent({ title, isUnlocked, presentContent, present
             </>
           )}
         </div>
-        
-        {/* Pixel corners */}
-        <div className="absolute top-0 left-0 w-3 h-3 bg-purple-500"></div>
-        <div className="absolute top-0 right-0 w-3 h-3 bg-purple-500"></div>
-        <div className="absolute bottom-0 left-0 w-3 h-3 bg-purple-500"></div>
-        <div className="absolute bottom-0 right-0 w-3 h-3 bg-purple-500"></div>
       </div>
       
       {/* Status indicator */}
       {isUnlocked && !isOpen && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+        <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-green-500 to-teal-500 rounded-full border border-green-400/50 flex items-center justify-center shadow-[0_0_8px_rgba(16,185,129,0.5)]">
           <span className="text-white text-xs">✓</span>
         </div>
       )}
